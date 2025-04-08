@@ -31,7 +31,9 @@ def generate_accounting_entries(file_path, target_month):
     )
 
     # Clean and filter the data
-    df_long["Date"] = pd.to_datetime(df_long["Date"], errors="coerce")
+    df_long["Date"] = pd.to_datetime(
+        df_long["Date"], errors="coerce"
+    ) + pd.offsets.MonthEnd(0)
     df_long = df_long.dropna(subset=["Date", "Amount"])
     df_target = df_long[df_long["Date"].dt.to_period("M") == target_month]
 
